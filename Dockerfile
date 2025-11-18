@@ -1,15 +1,20 @@
 FROM node:18-alpine as base
+
 WORKDIR /app
 
-# Intall dependencies separately for caching
+# Install dependencies
 COPY package.json package-lock.json ./
 RUN npm ci --omit=dev
 
-# copy app source code
+# Copy source
 COPY . .
 
-# Run as not root user (alpine node image inlcudes a user 'node')
+
+# Use non-root user
 USER node
+
 EXPOSE 3000
 ENV NODE_ENV=production
-CMD ["npm", 'start']
+
+#don't use different quotes here i made mistake but resolved tha
+CMD ["npm", "start"]
